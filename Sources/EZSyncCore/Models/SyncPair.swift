@@ -178,7 +178,7 @@ public enum SyncPairError: LocalizedError {
 
 // Helper extension for path expansion
 extension String {
-    var expandingTildeInPath: String {
+    public var expandingTildeInPath: String {
         return NSString(string: self).expandingTildeInPath
     }
 }

@@ -1,0 +1,3 @@
+module EZSyncCore {
+    header "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/include/EZSyncCore-Swift.h"
+}

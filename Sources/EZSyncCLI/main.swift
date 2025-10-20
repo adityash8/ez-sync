@@ -3,6 +3,7 @@ import ArgumentParser
 import EZSyncCore
 
 /// EZ Sync Command Line Interface
+@available(macOS 10.15, macCatalyst 13, iOS 13, tvOS 13, watchOS 6, *)
 struct EZSyncCLI: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "ezsync",
@@ -655,4 +656,9 @@ struct ValidationError: Error, LocalizedError {
 
 // MARK: - Main
 
-EZSyncCLI.main()
+if #available(macOS 10.15, *) {
+    EZSyncCLI.main()
+} else {
+    print("EZ Sync requires macOS 10.15 or later")
+    exit(1)
+}

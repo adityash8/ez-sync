@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/master.swiftdeps"
+  },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/checkouts/SwiftyJSON/Source/SwiftyJSON/SwiftyJSON.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/SwiftyJSON.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/SwiftyJSON.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/SwiftyJSON~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/SwiftyJSON.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/SwiftyJSON.dia"
+  },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/resource_bundle_accessor.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/resource_bundle_accessor.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/SwiftyJSON.build/resource_bundle_accessor.dia"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/master.swiftdeps"
+  },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/checkouts/swift-argument-parser/Sources/ArgumentParserToolInfo/ToolInfo.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/ArgumentParserToolInfo-tool.build/ToolInfo.dia"
+  }
+}

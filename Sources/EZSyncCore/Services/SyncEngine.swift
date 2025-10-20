@@ -72,7 +72,7 @@ public class SyncEngine {
         startTime: Date
     ) async throws -> SyncResult {
         var conflicts: [FileConflict] = []
-        var errors: [SyncError] = []
+        var _: [SyncError] = []
         
         // Handle different sync modes
         switch pair.syncMode {

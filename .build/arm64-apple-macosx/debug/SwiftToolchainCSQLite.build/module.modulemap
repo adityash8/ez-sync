@@ -1,0 +1,4 @@
+module SwiftToolchainCSQLite {
+    umbrella "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/checkouts/swift-toolchain-sqlite/Sources/CSQLite/include"
+    export *
+}

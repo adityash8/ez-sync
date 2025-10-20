@@ -41,7 +41,7 @@ public class LockfileManager {
                 let lockData = LockfileData(
                     pid: ProcessInfo.processInfo.processIdentifier,
                     timestamp: Date(),
-                    hostname: ProcessInfo.processInfo.hostName ?? "unknown"
+                    hostname: ProcessInfo.processInfo.hostName
                 )
                 
                 let encoder = JSONEncoder()

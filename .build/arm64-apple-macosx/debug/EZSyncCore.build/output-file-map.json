@@ -23,6 +23,20 @@
     "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ConflictResolver.swiftdeps",
     "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ConflictResolver.dia"
   },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/ErrorRecovery.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ErrorRecovery.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ErrorRecovery.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ErrorRecovery~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ErrorRecovery.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/ErrorRecovery.dia"
+  },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/FileSystemWatcher.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/FileSystemWatcher.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/FileSystemWatcher.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/FileSystemWatcher~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/FileSystemWatcher.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/FileSystemWatcher.dia"
+  },
   "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/LaunchAgentScheduler.swift": {
     "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LaunchAgentScheduler.d",
     "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LaunchAgentScheduler.swift.o",
@@ -30,12 +44,26 @@
     "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LaunchAgentScheduler.swiftdeps",
     "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LaunchAgentScheduler.dia"
   },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/LicenseManager.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LicenseManager.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LicenseManager.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LicenseManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LicenseManager.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LicenseManager.dia"
+  },
   "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/LockfileManager.swift": {
     "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LockfileManager.d",
     "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LockfileManager.swift.o",
     "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LockfileManager~partial.swiftmodule",
     "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LockfileManager.swiftdeps",
     "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/LockfileManager.dia"
+  },
+  "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/PerformanceOptimizer.swift": {
+    "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/PerformanceOptimizer.d",
+    "object": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/PerformanceOptimizer.swift.o",
+    "swiftmodule": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/PerformanceOptimizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/PerformanceOptimizer.swiftdeps",
+    "diagnostics": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/PerformanceOptimizer.dia"
   },
   "/Users/adityasheth/EZ MONEY/startups/ez-sync/Sources/EZSyncCore/Services/RsyncWrapper.swift": {
     "dependencies": "/Users/adityasheth/EZ MONEY/startups/ez-sync/.build/arm64-apple-macosx/debug/EZSyncCore.build/RsyncWrapper.d",

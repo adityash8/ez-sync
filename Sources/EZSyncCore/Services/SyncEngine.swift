@@ -7,12 +7,14 @@ public class SyncEngine {
     private let lockManager: LockfileManager
     private let rsyncWrapper: RsyncWrapper
     private let conflictResolver: ConflictResolver
+    private let errorRecovery: ErrorRecovery
     private let fileManager = FileManager.default
     
     public init() {
         self.lockManager = LockfileManager()
         self.rsyncWrapper = RsyncWrapper()
         self.conflictResolver = ConflictResolver()
+        self.errorRecovery = ErrorRecovery()
     }
     
     /// Execute a sync operation for a given pair
@@ -39,11 +41,14 @@ public class SyncEngine {
         logger.info("Starting sync for pair: \(pair.name)")
         
         do {
-            let result = try await executeSyncOperation(
-                pair: pair,
-                dryRun: dryRun,
-                startTime: startTime
-            )
+            // Use error recovery for the sync operation
+            let result = try await errorRecovery.retrySync {
+                try await self.executeSyncOperation(
+                    pair: pair,
+                    dryRun: dryRun,
+                    startTime: startTime
+                )
+            }
             
             logger.info("Sync completed: \(result.summary)")
             return result
@@ -51,14 +56,17 @@ public class SyncEngine {
         } catch {
             logger.error("Sync failed: \(error.localizedDescription)")
             
+            let recoveryAction = errorRecovery.getRecoveryAction(for: error)
+            let isRecoverable = errorRecovery.isRecoverable(error)
+            
             return SyncResult(
                 pairId: pair.id,
                 startTime: startTime,
                 endTime: Date(),
                 errors: [SyncError(
                     code: .unknown,
-                    message: error.localizedDescription,
-                    isRecoverable: false
+                    message: "\(error.localizedDescription) - \(recoveryAction.description)",
+                    isRecoverable: isRecoverable
                 )],
                 isDryRun: dryRun,
                 status: .failed

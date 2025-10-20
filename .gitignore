@@ -1,0 +1,16 @@
+# Swift build artifacts
+.build/
+.swiftpm/
+
+# Xcode
+xcuserdata/
+*.xcworkspace
+!default.xcworkspace
+*.xcuserstate
+*.xcscmblueprint
+
+# macOS
+.DS_Store
+
+# Claude Code configuration (optional - remove this line if you want to share Claude Code configs)
+.claude/

@@ -52,6 +52,9 @@ struct AddPair: AsyncParsableCommand {
     
     @Option(name: .shortAndLong, help: "Sync interval in seconds")
     var interval: Int = 300
+
+    @Option(name: [.customShort("t"), .long], help: "Single source of truth for deletions: none, source, destination")
+    var ssot: String = "none"
     
     @Flag(name: .shortAndLong, help: "Enable sync immediately")
     var enable: Bool = false
@@ -70,7 +73,11 @@ struct AddPair: AsyncParsableCommand {
         }) else {
             throw ValidationError("Invalid conflict resolution. Use: latest-wins, keep-both, source-wins, or destination-wins")
         }
-        
+
+        guard let anchor = TruthAnchor(rawValue: ssot.lowercased()) else {
+            throw ValidationError("Invalid ssot value. Use: none, source, or destination")
+        }
+
         let pair = SyncPair(
             name: name,
             sourcePath: source,
@@ -78,7 +85,8 @@ struct AddPair: AsyncParsableCommand {
             syncMode: syncMode,
             isEnabled: enable,
             conflictResolution: conflictRes,
-            syncInterval: TimeInterval(interval)
+            syncInterval: TimeInterval(interval),
+            truthAnchor: anchor
         )
         
         // Validate the pair
@@ -101,6 +109,7 @@ struct AddPair: AsyncParsableCommand {
         print("   Destination: \(destination)")
         print("   Mode: \(syncMode.displayName)")
         print("   Interval: \(interval)s")
+        print("   SSOT: \(anchor.description)")
         print("   Status: \(enable ? "Enabled" : "Disabled")")
         
         if enable {
@@ -138,6 +147,9 @@ struct ListPairs: AsyncParsableCommand {
             print("   Source: \(pair.sourcePath)")
             print("   Dest:   \(pair.destinationPath)")
             print("   Mode:   \(pair.syncMode.displayName)")
+            if pair.truthAnchor != .none {
+                print("   SSOT:   \(pair.truthAnchor.description)")
+            }
             
             if let lastSync = pair.lastSyncTime {
                 let formatter = RelativeDateTimeFormatter()
@@ -174,6 +186,9 @@ struct EditPair: AsyncParsableCommand {
     
     @Option(name: .shortAndLong, help: "New interval in seconds")
     var interval: Int?
+
+    @Option(name: [.customShort("t"), .long], help: "Update source-of-truth (none, source, destination)")
+    var ssot: String?
     
     func run() async throws {
         let storage = try StorageManager()
@@ -212,6 +227,13 @@ struct EditPair: AsyncParsableCommand {
         
         if let interval = interval {
             pair.syncInterval = TimeInterval(interval)
+        }
+
+        if let ssot = ssot {
+            guard let anchor = TruthAnchor(rawValue: ssot.lowercased()) else {
+                throw ValidationError("Invalid ssot value")
+            }
+            pair.truthAnchor = anchor
         }
         
         // Validate and save
@@ -443,6 +465,9 @@ struct Status: AsyncParsableCommand {
                 }
             } else {
                 print("   Status: Never synced")
+            }
+            if pair.truthAnchor != .none {
+                print("   SSOT: \(pair.truthAnchor.description)")
             }
         }
     }

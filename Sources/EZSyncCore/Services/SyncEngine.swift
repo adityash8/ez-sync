@@ -8,6 +8,7 @@ public class SyncEngine {
     private let rsyncWrapper: RsyncWrapper
     private let conflictResolver: ConflictResolver
     private let errorRecovery: ErrorRecovery
+    private let stateTracker: SyncStateTracker
     private let fileManager = FileManager.default
     
     public init() {
@@ -15,6 +16,7 @@ public class SyncEngine {
         self.rsyncWrapper = RsyncWrapper()
         self.conflictResolver = ConflictResolver()
         self.errorRecovery = ErrorRecovery()
+        self.stateTracker = SyncStateTracker()
     }
     
     /// Execute a sync operation for a given pair
@@ -109,6 +111,34 @@ public class SyncEngine {
         case .twoWay:
             // Two-way sync is more complex and requires conflict detection
             conflicts = try await detectConflicts(pair: pair)
+            var manualDeleteCount = 0
+            var manualDeleteErrors: [SyncError] = []
+            let previousSnapshot = stateTracker.loadSnapshot(for: pair.id)
+            var currentSnapshot: SyncStateSnapshot?
+            do {
+                currentSnapshot = try stateTracker.captureSnapshot(for: pair)
+            } catch {
+                logger.error("Failed to capture sync snapshot: \(error.localizedDescription)")
+            }
+            if let previousSnapshot, let currentSnapshot {
+                let deletions = stateTracker.computeDeletions(previous: previousSnapshot, current: currentSnapshot)
+                switch pair.truthAnchor {
+                case .source:
+                    if !deletions.source.isEmpty {
+                        let outcome = deleteFiles(paths: deletions.source, at: pair.destinationPath)
+                        manualDeleteCount += outcome.removed
+                        manualDeleteErrors.append(contentsOf: outcome.errors)
+                    }
+                case .destination:
+                    if !deletions.destination.isEmpty {
+                        let outcome = deleteFiles(paths: deletions.destination, at: pair.sourcePath)
+                        manualDeleteCount += outcome.removed
+                        manualDeleteErrors.append(contentsOf: outcome.errors)
+                    }
+                case .none:
+                    break
+                }
+            }
             
             // Resolve conflicts based on strategy
             for conflict in conflicts {
@@ -142,19 +172,27 @@ public class SyncEngine {
             )
             
             // Combine results
-            return SyncResult(
+            let combinedErrors = manualDeleteErrors + sourceToDestResult.errors + destToSourceResult.errors
+            let combinedDeletes = sourceToDestResult.filesDeleted + destToSourceResult.filesDeleted + manualDeleteCount
+            let hasFailures = sourceToDestResult.hasErrors || destToSourceResult.hasErrors || !manualDeleteErrors.isEmpty
+            let finalResult = SyncResult(
                 pairId: pair.id,
                 startTime: startTime,
                 endTime: Date(),
                 filesAdded: sourceToDestResult.filesAdded + destToSourceResult.filesAdded,
                 filesUpdated: sourceToDestResult.filesUpdated + destToSourceResult.filesUpdated,
-                filesDeleted: sourceToDestResult.filesDeleted + destToSourceResult.filesDeleted,
+                filesDeleted: combinedDeletes,
                 bytesTransferred: sourceToDestResult.bytesTransferred + destToSourceResult.bytesTransferred,
                 conflicts: conflicts,
-                errors: sourceToDestResult.errors + destToSourceResult.errors,
+                errors: combinedErrors,
                 isDryRun: dryRun,
-                status: (sourceToDestResult.hasErrors || destToSourceResult.hasErrors) ? .failed : .completed
+                status: hasFailures ? .failed : .completed
             )
+            if finalResult.status == .completed,
+               let updatedSnapshot = try? stateTracker.captureSnapshot(for: pair) {
+                stateTracker.saveSnapshot(updatedSnapshot, for: pair.id)
+            }
+            return finalResult
         }
     }
     
@@ -214,5 +252,33 @@ public class SyncEngine {
             }
         }
         return false
+    }
+}
+
+// MARK: - Helpers
+
+extension SyncEngine {
+    private func deleteFiles(paths: [String], at root: String) -> (removed: Int, errors: [SyncError]) {
+        guard !paths.isEmpty else { return (0, []) }
+        var removed = 0
+        var errors: [SyncError] = []
+        for relative in Set(paths) {
+            let fullPath = (root as NSString).appendingPathComponent(relative)
+            if fileManager.fileExists(atPath: fullPath) {
+                do {
+                    try fileManager.removeItem(atPath: fullPath)
+                    removed += 1
+                    logger.debug("Deleted \(fullPath, privacy: .public) to honor SSOT policy")
+                } catch {
+                    errors.append(SyncError(
+                        code: .permissionDenied,
+                        message: "Failed to delete \(relative): \(error.localizedDescription)",
+                        path: fullPath,
+                        isRecoverable: true
+                    ))
+                }
+            }
+        }
+        return (removed, errors)
     }
 }

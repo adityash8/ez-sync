@@ -14,6 +14,7 @@ public struct SyncPair: Codable, Identifiable {
     public var maxFileSize: Int64? // in bytes
     public var lastSyncTime: Date?
     public var syncInterval: TimeInterval // in seconds
+    public var truthAnchor: TruthAnchor
     public var createdAt: Date
     public var updatedAt: Date
     
@@ -29,7 +30,8 @@ public struct SyncPair: Codable, Identifiable {
         conflictResolution: ConflictResolution = .latestWins,
         maxFileSize: Int64? = nil,
         syncInterval: TimeInterval = 300, // 5 minutes default
-        lastSyncTime: Date? = nil
+        lastSyncTime: Date? = nil,
+        truthAnchor: TruthAnchor = .none
     ) {
         self.id = id
         self.name = name
@@ -43,6 +45,7 @@ public struct SyncPair: Codable, Identifiable {
         self.maxFileSize = maxFileSize
         self.syncInterval = syncInterval
         self.lastSyncTime = lastSyncTime
+        self.truthAnchor = truthAnchor
         self.createdAt = Date()
         self.updatedAt = Date()
     }
@@ -109,6 +112,21 @@ public struct SyncPair: Codable, Identifiable {
         
         // Check if source is a parent of destination or vice versa
         return source.hasPrefix(dest + "/") || dest.hasPrefix(source + "/") || source == dest
+    }
+}
+
+/// Describes which side should be treated as the single source of truth for deletions
+public enum TruthAnchor: String, Codable, CaseIterable, CustomStringConvertible {
+    case none
+    case source
+    case destination
+    
+    public var description: String {
+        switch self {
+        case .none: return "None"
+        case .source: return "Source"
+        case .destination: return "Destination"
+        }
     }
 }
 
@@ -182,4 +200,3 @@ extension String {
         return NSString(string: self).expandingTildeInPath
     }
 }
-

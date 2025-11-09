@@ -24,6 +24,7 @@ public class StorageManager {
     private let maxFileSize = Expression<Int64?>("max_file_size")
     private let syncInterval = Expression<Double>("sync_interval")
     private let lastSyncTime = Expression<Date?>("last_sync_time")
+    private let truthAnchor = Expression<String>("truth_anchor")
     private let createdAt = Expression<Date>("created_at")
     private let updatedAt = Expression<Date>("updated_at")
     
@@ -73,9 +74,17 @@ public class StorageManager {
             t.column(maxFileSize)
             t.column(syncInterval)
             t.column(lastSyncTime)
+            t.column(truthAnchor, defaultValue: TruthAnchor.none.rawValue)
             t.column(createdAt)
             t.column(updatedAt)
         })
+
+        // Ensure legacy databases pick up the truth_anchor column
+        do {
+            try db.run(syncPairs.addColumn(truthAnchor, defaultValue: TruthAnchor.none.rawValue))
+        } catch {
+            logger.debug("truth_anchor column exists or could not be added: \(error.localizedDescription)")
+        }
         
         // Create sync_results table
         try db.run(syncResults.create(ifNotExists: true) { t in
@@ -120,6 +129,7 @@ public class StorageManager {
             maxFileSize <- pair.maxFileSize,
             syncInterval <- pair.syncInterval,
             lastSyncTime <- pair.lastSyncTime,
+            truthAnchor <- pair.truthAnchor.rawValue,
             createdAt <- pair.createdAt,
             updatedAt <- Date()
         )
@@ -151,7 +161,8 @@ public class StorageManager {
                 conflictResolution: ConflictResolution(rawValue: row[conflictResolution])!,
                 maxFileSize: row[maxFileSize],
                 syncInterval: row[syncInterval],
-                lastSyncTime: row[lastSyncTime]
+                lastSyncTime: row[lastSyncTime],
+                truthAnchor: TruthAnchor(rawValue: row[truthAnchor]) ?? .none
             )
             pairs.append(pair)
         }
@@ -179,10 +190,11 @@ public class StorageManager {
             isEnabled: row[isEnabled],
             excludePatterns: excludes,
             includePatterns: includes,
-            conflictResolution: ConflictResolution(rawValue: row[conflictResolution])!,
-            maxFileSize: row[maxFileSize],
-            syncInterval: row[syncInterval],
-            lastSyncTime: row[lastSyncTime]
+                conflictResolution: ConflictResolution(rawValue: row[conflictResolution])!,
+                maxFileSize: row[maxFileSize],
+                syncInterval: row[syncInterval],
+                lastSyncTime: row[lastSyncTime],
+                truthAnchor: TruthAnchor(rawValue: row[truthAnchor]) ?? .none
         )
     }
     
